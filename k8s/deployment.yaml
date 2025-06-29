@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: graphql-api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: graphql-api
+  template:
+    metadata:
+      labels:
+        app: graphql-api
+    spec:
+      containers:
+      - name: api
+        image: ayush9goyal/graphql-k8s-demo:latest
+        ports:
+        - containerPort: 4000
+        env:
+        - name: MONGODB_URI
+          value: mongodb+srv://ayush9goyal:hlhMaFcUiqdvVFPR@data-warehouse.wkvjmxc.mongodb.net/sample_mflix?retryWrites=true&w=majority
