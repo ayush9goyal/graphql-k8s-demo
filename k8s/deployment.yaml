@@ -19,4 +19,4 @@ spec:
         - containerPort: 4000
         env:
         - name: MONGODB_URI
-          value: mongodb+srv://ayush9goyal:hlhMaFcUiqdvVFPR@data-warehouse.wkvjmxc.mongodb.net/sample_mflix?retryWrites=true&w=majority
+          value: ${MONGODB_URI}
