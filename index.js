@@ -6,6 +6,8 @@ require('dotenv').config();
 const { ApolloServer, gql } = require('apollo-server');
 const mongoose = require('mongoose');
 const { GraphQLScalarType, Kind } = require('graphql');
+const { ApolloServer } = require('apollo-server');
+const { createPlayground } = require('graphql-playground-html');
 
 // Import models
 const User = require('./models/User');
@@ -170,8 +172,16 @@ async function start() {
     const server = new ApolloServer({
       typeDefs,
       resolvers,
-      introspection: true, // ✅ enables introspection in production
-      playground: true     // ✅ enables GraphQL Playground UI
+      introspection: true,
+      plugins: [{
+        async serverWillStart() {
+          return {
+            async renderLandingPage() {
+              return { html: createPlayground({ endpoint: "/graphql" }) };
+            }
+          };
+        }
+      }]
     });
 
     server
