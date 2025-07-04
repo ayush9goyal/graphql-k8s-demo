@@ -3,11 +3,9 @@
 console.log('🔍 index.js has started');
 
 require('dotenv').config();
-const { ApolloServer, gql } = require('apollo-server');
 const mongoose = require('mongoose');
 const { GraphQLScalarType, Kind } = require('graphql');
-const { ApolloServer } = require('apollo-server');
-const { createPlayground } = require('graphql-playground-html');
+const { ApolloServer, gql } = require('apollo-server');
 
 // Import models
 const User = require('./models/User');
@@ -172,20 +170,12 @@ async function start() {
     const server = new ApolloServer({
       typeDefs,
       resolvers,
-      introspection: true,
-      plugins: [{
-        async serverWillStart() {
-          return {
-            async renderLandingPage() {
-              return { html: createPlayground({ endpoint: "/graphql" }) };
-            }
-          };
-        }
-      }]
+      introspection: true,  // ✅ Enables introspection in production
+      playground: true      // ✅ Enables GraphQL Playground in production
     });
 
-    server
-        .listen({ port: process.env.PORT || 4000, path: "/graphql" })
+
+    server.listen({ port: process.env.PORT || 4000, path: "/graphql" })
         .then(({ url }) => console.log(`🚀 Server ready at ${url}`))
         .catch((err) => console.error('❌ Apollo Server failed to start:', err));
   } catch (err) {
