@@ -111,7 +111,11 @@ const resolvers = {
 // Server bootstrap
 async function start() {
   await mongoose.connect(process.env.MONGODB_URI);
-  const server = new ApolloServer({ typeDefs, resolvers });
-  server.listen({ port: process.env.PORT || 4000, path: "/graphql" }).then(({ url }) => console.log(`🚀 Server ready at ${url}`));
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+  introspection: true, // allow introspection in production
+  playground: true     // enable GraphQL Playground UI
+});  server.listen({ port: process.env.PORT || 4000, path: "/graphql" }).then(({ url }) => console.log(`🚀 Server ready at ${url}`));
 }
 start();
