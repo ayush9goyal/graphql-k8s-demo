@@ -167,11 +167,17 @@ async function start() {
     await mongoose.connect(process.env.MONGODB_URI);
     console.log('✅ MongoDB connection established');
 
-    const server = new ApolloServer({ typeDefs, resolvers });
+    const server = new ApolloServer({
+      typeDefs,
+      resolvers,
+      introspection: true, // ✅ enables introspection in production
+      playground: true     // ✅ enables GraphQL Playground UI
+    });
+
     server
-      .listen({ port: process.env.PORT || 4000 })
-      .then(({ url }) => console.log(`🚀 Server ready at ${url}`))
-      .catch((err) => console.error('❌ Apollo Server failed to start:', err));
+        .listen({ port: process.env.PORT || 4000, path: "/graphql" })
+        .then(({ url }) => console.log(`🚀 Server ready at ${url}`))
+        .catch((err) => console.error('❌ Apollo Server failed to start:', err));
   } catch (err) {
     console.error('❌ Error in server bootstrap:', err);
     process.exit(1);
