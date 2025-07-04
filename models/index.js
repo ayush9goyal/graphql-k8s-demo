@@ -112,6 +112,6 @@ const resolvers = {
 async function start() {
   await mongoose.connect(process.env.MONGODB_URI);
   const server = new ApolloServer({ typeDefs, resolvers });
-  server.listen({ port: process.env.PORT || 4000 }).then(({ url }) => console.log(`🚀 Server ready at ${url}`));
+  server.listen({ port: process.env.PORT || 4000, path: "/graphql" }).then(({ url }) => console.log(`🚀 Server ready at ${url}`));
 }
 start();
