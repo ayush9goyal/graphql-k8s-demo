@@ -87,7 +87,7 @@ const typeDefs = gql`
   }
 
   type Mutation {
-    addUser(name: String!, email: String!, password: String!): User
+    addUser(name: String!, email: String!): User
     addCategory(name: String!): Category
     addProduct(name: String!, description: String, price: Float!, categoryId: ID!): Product
     createOrder(userId: ID!, items: [OrderItemInput!]!): Order
@@ -134,8 +134,8 @@ const resolvers = {
   },
 
   Mutation: {
-    addUser: (_, { name, email, password }) =>
-      User.create({ name, email, passwordHash: password }),
+    addUser: (_, { name, email}) =>
+      User.create({ name, email}),
     addCategory: (_, { name }) => Category.create({ name }),
     addProduct: (_, args) =>
       Product.create({
